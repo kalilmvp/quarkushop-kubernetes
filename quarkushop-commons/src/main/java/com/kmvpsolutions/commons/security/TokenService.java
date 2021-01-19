@@ -56,6 +56,7 @@ public class TokenService {
         HttpRequest httpRequest = HttpRequest.newBuilder()
                 .uri(URI.create(keyCloakTokenEndpoint))
                 .header("Content-Type", "application/x-www-form-urlencoded")
+                .version(HttpClient.Version.HTTP_1_1)
                 .POST(HttpRequest.BodyPublishers.ofString(requestBody))
                 .build();
 

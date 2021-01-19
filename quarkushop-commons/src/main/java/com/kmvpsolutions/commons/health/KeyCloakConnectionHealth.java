@@ -19,7 +19,7 @@ import java.time.Duration;
 @Liveness
 @Slf4j
 @ApplicationScoped
-public class KeycloakConnectionHealth implements HealthCheck {
+public class KeyCloakConnectionHealth implements HealthCheck {
     @ConfigProperty(name = "mp.jwt.verify.publickey.location", defaultValue = "false")
     Provider<String> keyCloakUrl;
 
@@ -55,6 +55,7 @@ public class KeycloakConnectionHealth implements HealthCheck {
         }
 
         if (response == null || response.statusCode() != 200) {
+            log.info("URL do keycloak: " + this.keyCloakUrl.get());
             throw new IllegalStateException("Cannot contact Keycloak");
         }
     }

@@ -1,10 +1,8 @@
 package com.kmvpsolutions.order;
 
-import com.kmvpsolutions.commons.utils.KeyCloakRealmResource;
 import com.kmvpsolutions.commons.utils.TestContainerResource;
 import com.kmvpsolutions.order.util.ContextTestResource;
 import io.quarkus.test.common.QuarkusTestResource;
-import io.quarkus.test.junit.DisabledOnNativeImage;
 import io.quarkus.test.junit.QuarkusTest;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
