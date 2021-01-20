@@ -10,6 +10,7 @@ import org.eclipse.microprofile.metrics.annotation.Timed;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Provider;
+import java.io.EOFException;
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -53,14 +54,23 @@ public class TokenService {
 
         HttpClient client = HttpClient.newBuilder().build();
 
+        int tentativas = 0;
         HttpRequest httpRequest = HttpRequest.newBuilder()
                 .uri(URI.create(keyCloakTokenEndpoint))
                 .header("Content-Type", "application/x-www-form-urlencoded")
-                .version(HttpClient.Version.HTTP_1_1)
                 .POST(HttpRequest.BodyPublishers.ofString(requestBody))
                 .build();
+        HttpResponse<String> response = null;
 
-        HttpResponse<String> response = client.send(httpRequest, HttpResponse.BodyHandlers.ofString());
+        while(tentativas < 3) {
+            try {
+                 response = client.send(httpRequest, HttpResponse.BodyHandlers.ofString());
+                 break;
+            } catch (IOException io) {
+                tentativas += 1;
+                System.out.println("Tentativa de conexão " + tentativas + ". Realizando uma nova.");
+            }
+        }
 
         String acessToken = null;
 
